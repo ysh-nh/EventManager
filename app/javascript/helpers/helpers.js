@@ -1,4 +1,8 @@
+import { error } from './notifications';
+
 export const isEmptyObject = obj => Object.keys(obj).length === 0;
+
+const isValidDate = dateObj => !Number.isNaN(Date.parse(dateObj));
 
 export const validateEvent = (event) => {
   const errors = {};
@@ -7,7 +11,7 @@ export const validateEvent = (event) => {
     errors.event_type = 'You must enter an event type';
   }
 
-  if (event.event_date === '') {
+  if (!isValidDate(event.event_date)) {
     errors.event_date = 'You must enter a valid date';
   }
 
@@ -33,3 +37,8 @@ export const formatDate = (d) => {
 
   return `${YYYY}-${MM}-${DD}`;
 }
+
+export const handleAjaxError = (err) => {
+  error('Something went wrong');
+  console.error(err);
+};
